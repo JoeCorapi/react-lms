@@ -2,40 +2,38 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import BookActions from '../actions/bookActions';
-//import FormModal from './FormModal';
+import AuthorActions from '../actions/authorActions';
 
-export class BookList extends React.Component{
+export class AuthorList extends React.Component{
 
-    createBookRow(book){
+    createAuthorRow(author){
 
         return (
-            <tr key={book.book_id}>
-                <td style={{width:"250px"}}>
-                    {/* <FormModal showModal={this.state.showModal} hideModalHandler={this.hideModalHandler}></FormModal> */}
+            <tr key={author.author_id}>
+                <td style={{width:"290px"}}>
                     <button type="button" className="btn btn-info" >
-                        Update Book   
+                        Update Author
                     </button>
                     <button type="button" className="btn btn-danger mx-1">
-                        Delete Book
+                        Delete Author
                     </button>
                 </td>
-                <td> {book.book_id} </td>
-                <td> {book.title} </td>
-                <td> {book.author} </td>
+                <td> {author.author_id} </td>
+                <td> {author.firstName} </td>
+                <td> {author.lastName} </td>
             </tr>
         );
     }
 
     componentDidMount(){
-        BookActions.readBooks();
+        AuthorActions.readAuthors();
     }
 
     render() {
         
         let content = '';
         
-        if(this.props.book.readState.pending){
+        if(this.props.author.readState.pending){
             content = (
                 <div className="d-flex justify-content-center">
                     <div className="spinner-border" role="status">
@@ -45,43 +43,43 @@ export class BookList extends React.Component{
             );
         }
 
-        if(this.props.book.readState.success){
+        if(this.props.author.readState.success){
             content = 
                 (<table className="table table-bordered table-striped table-hover table-sm table-responsive-lg">
                     <thead className='thead-dark'>
                         <tr>
-                            <th style={{width:"250px"}}></th>
+                            <th style={{width:"280px"}}></th>
                             <th>ID</th>
-                            <th>Title</th>
-                            <th>Author</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {this.props.book.bookList.map(this.createBookRow, this)}
+                        {this.props.author.authorList.map(this.createAuthorRow, this)}
                     </tbody>    
                 </table>)
         }
 
-        if(this.props.book.readState.failure){
+        if(this.props.author.readState.failure){
             content = 
             (
                 <div className="alert alert-danger" role="alert">
-                    Error while loading books!
+                    Error while loading authors!!
                 </div>
             )
         }
 
         return(
             <div>
-                <h1>Books</h1>
+                <h1>Authors</h1>
                 {content}
             </div>
         );
     }
 }
 
-BookList.propTypes = {
-    book: PropTypes.object.isRequired
+AuthorList.propTypes = {
+    author: PropTypes.object.isRequired
 };
 
 

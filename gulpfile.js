@@ -1,6 +1,7 @@
 "use strict";
 
 var gulp = require('gulp');
+var clean = require('gulp-clean');
 var connect = require('gulp-connect');
 var open = require('gulp-open');
 var browserify = require('browserify');
@@ -17,9 +18,9 @@ var config = {
 		js: './src/**/*.js',
 		images: './src/images/*',
 		css: [
-      		'node_modules/bootstrap/dist/css/bootstrap.min.css',
-      		'node_modules/bootstrap/dist/css/bootstrap-theme.min.css'
-    	],
+			'node_modules/bootstrap/dist/css/bootstrap.min.css',
+			'node_modules/bootstrap/dist/css/bootstrap-theme.min.css'
+		],
 		dist: './dist',
 		mainJs: './src/main.js'
 	}
@@ -79,4 +80,10 @@ gulp.task('watch', function() {
 	gulp.watch(config.paths.js, ['js', 'lint']);
 });
 
-gulp.task('default', ['html', 'js', 'css', 'images', 'lint', 'open', 'watch']);
+//npm install --save-dev gulp-clean
+gulp.task('clean', function () {
+    return gulp.src('dist/scripts/*', {read: false})
+        .pipe(clean());
+});
+
+gulp.task('default', ['clean', 'html', 'js', 'css', 'images', 'lint', 'open', 'watch']);
