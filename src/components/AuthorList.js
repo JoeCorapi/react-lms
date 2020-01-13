@@ -48,7 +48,11 @@ export class AuthorList extends React.Component{
                 (<table className="table table-bordered table-striped table-hover table-sm table-responsive-lg">
                     <thead className='thead-dark'>
                         <tr>
-                            <th style={{width:"280px"}}></th>
+                            <th style={{width:"280px"}}>
+                            <button type="button" className="btn btn-primary btn-block" onClick={() => this.handleAdd()}>
+                                    Add Author
+                            </button>
+                            </th>
                             <th>ID</th>
                             <th>First Name</th>
                             <th>Last Name</th>

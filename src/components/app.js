@@ -16,10 +16,19 @@ export class App extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
+            showModal: false,
             book:{
                 bookList: [],
                 readState:{
                     pending:false,
+                    success:false,
+                    failure:false
+                },
+                updateState:{
+                    success:false,
+                    failure:false
+                },
+                deleteState:{
                     success:false,
                     failure:false
                 },
@@ -43,11 +52,15 @@ export class App extends React.Component{
                 <Header/>
                 <Switch>
                     <Route exact path='/' component={Home}/>
-                    <Route path='/books' render={(props) => (<BookList {...props} book={this.state.book} />)}/>
+                    <Route path='/books' render={(props) => (<BookList {...props} book={this.state.book} showModal={this.state.showModal} setModal={this.setModal.bind(this)} />)}/>
                     <Route path='/authors' render={(props) => (<AuthorList {...props} author={this.state.author} />)}/>
                 </Switch>
             </div>
         );
+    }
+
+    setModal() {
+        this.setState({ showModal: !(this.state.showModal) })
     }
 
     componentDidMount(){

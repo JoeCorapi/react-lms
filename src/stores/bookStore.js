@@ -34,9 +34,33 @@ class BookStoreClass extends EventEmitter{
         return _bookStore.book;
     }
 
+    addBook(){
+
+    }
+    
+    updateBook(){
+    
+    }
+
+    deleteBook(){
+
+    }
+
     resetReadState(){
         _bookStore.book.readState = {
             pending:false,
+            success:false,
+            failure:false
+          }
+    }
+    resetUpdateState(){
+        _bookStore.book.updateState = {
+            success:false,
+            failure:false
+          }
+    }
+    resetDeleteState(){
+        _bookStore.book.deleteState = {
             success:false,
             failure:false
           }
@@ -48,6 +72,8 @@ const BookStore = new BookStoreClass();
 Dispatcher.register( (action) => {
 
     switch (action.actionType){
+
+        //READ FUNCTIONS
         case 'read_books_successful':
             BookStore.resetReadState();
             _bookStore.book.bookList = action.data;
@@ -64,7 +90,37 @@ Dispatcher.register( (action) => {
             _bookStore.book.readState.pending = true;
             BookStore.emitChange();
             break;
-        default:
+
+        //UPDATE FUNCTIONS
+        case 'update_book_successful':
+            BookStore.resetUpdateState();
+            _bookStore.book.updateState.success = true;
+            BookStore.emitChange();
+            break;
+        case 'update_book_failure':
+            BookStore.resetUpdateState();
+            _bookStore.book.updateState.failure = true;
+            BookStore.emitChange();
+            break;
+
+        //DELETE FUNCTIONS   
+        case 'delete_book_successful':{
+            BookStore.resetDeleteState();
+
+            _bookStore.book.bookList = _bookStore.book.bookList.filter(
+                b => b.book_id !== action.data.book_id,
+              );
+
+            _bookStore.book.deleteState.success = true;
+            BookStore.emitChange();
+        }
+            break;           
+        case 'delete_book_failure':
+            BookStore.resetDeleteState();
+            _bookStore.book.deleteState.failure = true;
+            BookStore.emitChange();
+            break;                     
+    default:
             return;
     }
 } );

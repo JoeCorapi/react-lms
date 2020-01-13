@@ -19,6 +19,55 @@ const BooksActions = {
                 actionType: 'read_books_failure'
             });
         });
+    },
+
+    addBook: function(book){
+        axios.get(`http://www.mocky.io/v2/5daca80c30000092002987ad`)
+        .then( () => {
+            Dispatcher.dispatch({
+                actionType: 'add_book_successful',
+                data:  book
+            });
+        })
+        .catch( (error) => {
+            console.log(error);
+            Dispatcher.dispatch({
+                actionType: 'add_book_failure'
+            });
+        });
+    },   
+
+    updateBook: function(book){
+        axios.get(`http://www.mocky.io/v2/5daca80c30000092002987ad`)
+        .then( () => {
+            Dispatcher.dispatch({
+                actionType: 'update_book_successful',
+                data:  book
+            });
+        })
+        .catch( (error) => {
+            console.log(error);
+            Dispatcher.dispatch({
+                actionType: 'update_book_failure'
+            });
+        });
+    },
+
+    deleteBook: function(book){
+        console.log(book.book_id);
+        axios.delete(`http://www.mocky.io/v2/5daca80c30000092002987ad`, {params: {book_id: book.book_id}})
+        .then( () => {
+            Dispatcher.dispatch({
+                actionType: 'delete_book_successful',
+                data:  book
+            });
+        })
+        .catch( (error) => {
+            console.log(error);
+            Dispatcher.dispatch({
+                actionType: 'delete_book_failure'
+            });
+        });
     }
 }
 
