@@ -38,7 +38,7 @@ const BooksActions = {
     },   
 
     updateBook: function(book){
-        axios.post(`http://www.mocky.io/v2/5daca80c30000092002987ad`, book)
+        axios.put(`http://www.mocky.io/v2/5daca80c30000092002987ad`, book)
         .then( () => {
             Dispatcher.dispatch({
                 actionType: 'update_book_successful',
