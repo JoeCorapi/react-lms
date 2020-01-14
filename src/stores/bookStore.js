@@ -34,21 +34,15 @@ class BookStoreClass extends EventEmitter{
         return _bookStore.book;
     }
 
-    addBook(){
-
-    }
-    
-    updateBook(){
-    
-    }
-
-    deleteBook(){
-
-    }
-
     resetReadState(){
         _bookStore.book.readState = {
             pending:false,
+            success:false,
+            failure:false
+          }
+    }
+    resetCreateState(){
+        _bookStore.book.createState = {
             success:false,
             failure:false
           }
@@ -91,11 +85,38 @@ Dispatcher.register( (action) => {
             BookStore.emitChange();
             break;
 
-        //UPDATE FUNCTIONS
-        case 'update_book_successful':
-            BookStore.resetUpdateState();
-            _bookStore.book.updateState.success = true;
+        //CREATE FUNCTIONS
+        case 'create_book_successful':
+            BookStore.resetCreateState();
+
+            _bookStore.book.bookList.push({
+                book_id: Math.max(..._bookStore.book.bookList.map(b => b.book_id)) + 1,
+                title: action.data.title,
+                author: action.data.author
+            });
+
+            _bookStore.book.createState.success = true;
             BookStore.emitChange();
+            break;
+        case 'create_book_failure':
+            BookStore.resetCreateState();
+            _bookStore.book.createState.failure = true;
+            BookStore.emitChange();
+            break;
+
+        //UPDATE FUNCTIONS
+        case 'update_book_successful':{
+                BookStore.resetUpdateState();
+                console.log(action.data);
+                const index = _bookStore.book.bookList.findIndex(b => b.book_id === action.data.book_id);
+                _bookStore.book.bookList[index] = {
+                    book_id: action.data.book_id,
+                    title: action.data.title,
+                    author: action.data.author
+                };
+                _bookStore.book.updateState.success = true;
+                BookStore.emitChange();
+            }
             break;
         case 'update_book_failure':
             BookStore.resetUpdateState();
@@ -108,7 +129,7 @@ Dispatcher.register( (action) => {
             BookStore.resetDeleteState();
 
             _bookStore.book.bookList = _bookStore.book.bookList.filter(
-                b => b.book_id !== action.data.book_id,
+                b => b.book_id !== action.data.book_id
               );
 
             _bookStore.book.deleteState.success = true;

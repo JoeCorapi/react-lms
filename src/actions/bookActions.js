@@ -22,23 +22,23 @@ const BooksActions = {
     },
 
     addBook: function(book){
-        axios.get(`http://www.mocky.io/v2/5daca80c30000092002987ad`)
+        axios.post(`http://www.mocky.io/v2/5daca80c30000092002987ad`, book)
         .then( () => {
             Dispatcher.dispatch({
-                actionType: 'add_book_successful',
-                data:  book
+                actionType: 'create_book_successful',
+                data: book
             });
         })
         .catch( (error) => {
             console.log(error);
             Dispatcher.dispatch({
-                actionType: 'add_book_failure'
+                actionType: 'create_book_failure'
             });
         });
     },   
 
     updateBook: function(book){
-        axios.get(`http://www.mocky.io/v2/5daca80c30000092002987ad`)
+        axios.post(`http://www.mocky.io/v2/5daca80c30000092002987ad`, book)
         .then( () => {
             Dispatcher.dispatch({
                 actionType: 'update_book_successful',
